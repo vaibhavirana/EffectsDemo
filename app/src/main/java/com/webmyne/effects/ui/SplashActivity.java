@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
 
         init();
 
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(4000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -36,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
         ShimmerTextView shimmerTextView = (ShimmerTextView) findViewById(R.id.shimmerTextView);
         shimmerTextView.setTypeface(Functions.getBoldFont(this));
         Shimmer shimmer = new Shimmer();
+        shimmer.setDuration(1500);
         shimmer.start(shimmerTextView);
     }
 }
