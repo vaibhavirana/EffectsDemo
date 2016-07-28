@@ -18,7 +18,7 @@ import com.webmyne.effects.image_processing.ImageProcessor;
 public class MainActivity extends AppCompatActivity {
 
     private String file;
-    private ImageView mOriginalImageView,imgHome;
+    private ImageView mOriginalImageView, imgHome;
     private Gallery mGallery;
     private Bitmap[] mBitmapArray;
     private ImageProcessor mImageProcessor;
@@ -30,31 +30,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         file = getIntent().getStringExtra("file");
         initialize();
-       // loadBitmaps();
-       // setAdapterAndListener();
+        // loadBitmaps();
+        // setAdapterAndListener();
     }
+
     private void initialize() {
         mOriginalImageView = (ImageView) findViewById(R.id.imageView);
+        if (!TextUtils.isEmpty(file)) {
+            bitmap = BitmapFactory.decodeFile(file);
+            mOriginalImageView.setImageBitmap(bitmap);
+        }
+
         imgHome = (ImageView) findViewById(R.id.imgHome);
         imgHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homeIntent=new Intent(MainActivity.this,SplashActivity.class);
-                startActivity(homeIntent);
+                finish();
             }
         });
-        if (TextUtils.isEmpty(file)) {
-             bitmap = BitmapFactory.decodeFile(file);
-            mOriginalImageView.setImageBitmap(bitmap);
-        }
+
         mGallery = (Gallery) findViewById(R.id.gallery);
         mImageProcessor = new ImageProcessor();
     }
 
     private void loadBitmaps() {
-       // Bitmap skullBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.skull);
-      //  Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg1);
-        mBitmapArray = new Bitmap[] {
+        // Bitmap skullBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.skull);
+        //  Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg1);
+        mBitmapArray = new Bitmap[]{
                 /*skullBitmap,
                 mImageProcessor.doHighlightImage(skullBitmap, 15, Color.RED),
                 mImageProcessor.doInvert(skullBitmap), mImageProcessor.doGreyScale(skullBitmap),
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 mImageProcessor.applyReflection(skullBitmap),*/
                 bitmap,
                 //mImageProcessor.doHighlightImage(bitmap, 15, Color.RED),
-              // mImageProcessor.doInvert(bitmap), mImageProcessor.doGreyScale(bitmap),
+                // mImageProcessor.doInvert(bitmap), mImageProcessor.doGreyScale(bitmap),
                 mImageProcessor.doGamma(bitmap, 0.6, 0.6, 0.6),
                 mImageProcessor.doGamma(bitmap, 1.8, 1.8, 1.8),
                 mImageProcessor.doColorFilter(bitmap, 1, 0, 0),
