@@ -1,26 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.webmyne.effects.ui.MainActivity">
 
-    <include layout="@layout/app_bar"></include>
-
-
-    <Gallery
-        android:id="@+id/gallery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+    <!--<include
+        android:id="@+id/toolbar" layout="@layout/app_bar"></include>-->
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/gallery"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/car"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg1" />
+    <ImageView
+        android:id="@+id/imgHome"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_marginRight="@dimen/dimen_8dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_home"
+        android:tint="#FFF"
+        android:padding="@dimen/dimen_16dp"
+        android:background="@drawable/bgicon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         />
-</LinearLayout>
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/imgPic"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="120dp"
+        android:padding="@dimen/dimen_4dp"
+        android:layout_height="@dimen/dimen_36dp"
+        android:src="@drawable/ic_action_up"
+        android:tint="#FFFF"
+        android:background="@drawable/roundbg"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimen_8dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+      <!--  <view
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp"
+            android:background="@color/colorAccent"></view>-->
+    <Gallery
+        android:visibility="gone"
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="@dimen/dimen_8dp"
+       />
+
+    </LinearLayout>
+
+</RelativeLayout>
