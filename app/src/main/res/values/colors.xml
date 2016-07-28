@@ -5,4 +5,21 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="orange">#99CC00</color>
+    <color name="black">#000000</color>
+    <color name="half_black">#4c4c4c</color>
+    <color name="white">#ffffff</color>
+
+    <color name="tab_bg">#424242</color>
+
+    <color name="button_bg">@color/orange</color>
+    <color name="button_ripple">#89b700</color>
+
+    <color name="statusbar_color">#172c42</color>
+
+    <color name="pulse_in">@color/tab_bg</color>
+    <color name="pulse_out">#656565</color>
+
+    <color name="apps_list_system_memory">#ff384248</color>
+    <color name="apps_list_cache_memory">#ff009587</color>
+    <color name="apps_list_free_memory">#ffced7db</color>
 </resources>

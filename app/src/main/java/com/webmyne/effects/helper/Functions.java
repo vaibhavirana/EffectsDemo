@@ -11,10 +11,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.webmyne.effects.R;
+import com.webmyne.effects.ui.SplashActivity;
 
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
