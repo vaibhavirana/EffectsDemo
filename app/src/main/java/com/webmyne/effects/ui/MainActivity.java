@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.webmyne.effects.R;
@@ -33,7 +34,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     private String file;
     private ImageView mOriginalImageView, imgHome, imgPic, imgSave;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageProcessor mImageProcessor;
     private Bitmap bitmap;
     private LinearLayout bottom_sheet;
+    private SeekBar seekBar1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
     private void initialize() {
         bottom_sheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         imgPic = (ImageView) findViewById(R.id.imgPic);
+
+        seekBar1=(SeekBar)findViewById(R.id.seekBar1);
+        seekBar1.setOnSeekBarChangeListener(this);
+
        /* imgSave = (ImageView) findViewById(R.id.imgSave);
         imgSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +75,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (bottom_sheet.isShown()) {
                     bottom_sheet.setVisibility(View.GONE);
-                   /* bottom_sheet.animate()
-                            .translationYBy(0)
-                            .translationY(bottom_sheet.getHeight())
+                    /*bottom_sheet.setAlpha(1.0f);
+                    bottom_sheet.animate()
+                            .translationY(0)
+                            .alpha(0.0f)
                             .setDuration(2000)
                             .setListener(new AnimatorListenerAdapter() {
                         @Override
@@ -79,13 +86,13 @@ public class MainActivity extends AppCompatActivity {
                             super.onAnimationEnd(animation);
                             bottom_sheet.setVisibility(View.GONE);
                         }
-                    });;;*/
+                    });*/
                    // bottom_sheet.animate().translationY(0);
                 } else {
                     bottom_sheet.setVisibility(View.VISIBLE);
                    // bottom_sheet.animate().translationY(bottom_sheet.getHeight()).setDuration(1500);
-
-                  /*  bottom_sheet.setAlpha(0.0f);
+/*
+                    bottom_sheet.setAlpha(0.0f);
 
                 // Start the animation
                     bottom_sheet.animate()
@@ -262,5 +269,20 @@ public class MainActivity extends AppCompatActivity {
                 mOriginalImageView.setImageBitmap(mBitmapArray[position]);
             }
         });
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        Toast.makeText(getApplicationContext(),"seekbar progress: "+progress, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        Toast.makeText(getApplicationContext(),"seekbar touch started!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        Toast.makeText(getApplicationContext(),"seekbar touch stopped!", Toast.LENGTH_SHORT).show();
     }
 }

@@ -6,8 +6,8 @@
     <item android:state_focused="false" android:state_pressed="false" android:drawable="@drawable/ic_action_save"/>
 -->
     <item android:state_pressed="true"
-        android:drawable="@drawable/ic_action_save_selected"/> <!-- pressed state -->
+        android:drawable="@drawable/ic_filters_selected"/> <!-- pressed state -->
     <item android:state_focused="true"
-        android:drawable="@drawable/ic_action_save_selected"/> <!-- focused state -->
-    <item android:drawable="@drawable/ic_action_save"/> <!-- default state -->
+        android:drawable="@drawable/ic_filters_selected"/> <!-- focused state -->
+    <item android:drawable="@drawable/ic_filters"/> <!-- default state -->
 </selector>
