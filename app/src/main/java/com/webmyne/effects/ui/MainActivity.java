@@ -1,6 +1,5 @@
 package com.webmyne.effects.ui;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.webmyne.effects.R;
 import com.webmyne.effects.adpater.ImageAdapter;
@@ -18,11 +18,12 @@ import com.webmyne.effects.image_processing.ImageProcessor;
 public class MainActivity extends AppCompatActivity {
 
     private String file;
-    private ImageView mOriginalImageView, imgHome;
+    private ImageView mOriginalImageView, imgHome, imgPic;
     private Gallery mGallery;
     private Bitmap[] mBitmapArray;
     private ImageProcessor mImageProcessor;
     private Bitmap bitmap;
+    private LinearLayout bottom_sheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        bottom_sheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+        imgPic = (ImageView) findViewById(R.id.imgPic);
+
+        imgPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bottom_sheet.isShown())
+                    bottom_sheet.setVisibility(View.GONE);
+                else
+                    bottom_sheet.setVisibility(View.VISIBLE);
+            }
+        });
+
         mOriginalImageView = (ImageView) findViewById(R.id.imageView);
         if (!TextUtils.isEmpty(file)) {
             bitmap = BitmapFactory.decodeFile(file);
@@ -46,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_down_out);
             }
         });
 

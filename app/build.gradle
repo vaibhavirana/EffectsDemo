@@ -20,7 +20,7 @@ android {
 }
 
 repositories {
-
+    mavenCentral()
     maven { url "https://jitpack.io" }
 
 }
@@ -29,6 +29,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
 
     // flowing gradient
     compile 'com.dynamitechetan.flowinggradient:flowinggradient:1.1'
@@ -39,4 +40,9 @@ dependencies {
     // image picker
     compile 'com.mlsdev.rximagepicker:library:1.2.1'
     compile 'io.reactivex:rxjava:1.0.14'
+
+    compile project(path: ':brokenview')
+
+    compile 'com.sothree.slidinguppanel:library:3.3.0'
+
 }
