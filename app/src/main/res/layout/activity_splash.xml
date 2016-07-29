@@ -6,20 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".ui.SplashActivity">
 
-    <com.dynamitechetan.flowinggradient.FlowingGradient
+    <ImageView
+        android:id="@+id/image_grey"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg4" />
+
+    <ImageView
+        android:id="@+id/image_grey1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:alpha="0"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg2" />
+
+    <ImageView
+        android:id="@+id/image_grey2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:alpha="0"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg1" />
+
+    <ImageView
+        android:id="@+id/image_orange"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:alpha="0"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg3" />
+   <!-- <com.dynamitechetan.flowinggradient.FlowingGradient
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         gradient:transition_drawable="@drawable/trans"
-        gradient:transition_duration="4000" />
-
+        gradient:transition_duration="3000" />
+-->
     <TextView
         android:id="@+id/txtAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_2dp"
-        android:layout_marginStart="@dimen/dimen_2dp"
-        android:layout_marginTop="@dimen/dimen_28dp"
-        android:rotation="325"
+        android:layout_marginLeft="@dimen/dimen_8dp"
+        android:layout_marginStart="@dimen/dimen_8dp"
+        android:layout_marginTop="@dimen/dimen_36dp"
+        android:rotation="320"
         android:text="@string/app_name"
         android:textColor="#C63378"
         android:textSize="28sp" />

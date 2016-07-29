@@ -4,6 +4,7 @@
     android:oneshot="false">
     <!-- The drawables used here can be solid colors, gradients, shapes, images, etc. -->
     <item
+
         android:drawable="@drawable/bg1"
         android:duration="3000" />
     <item
