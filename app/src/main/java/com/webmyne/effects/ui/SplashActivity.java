@@ -38,8 +38,9 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Functions.setActivityToFullScreen(this);
         setContentView(R.layout.activity_splash);
-
+        getSupportActionBar().hide();
         context = SplashActivity.this;
         setBackgroundAnim();
         init();

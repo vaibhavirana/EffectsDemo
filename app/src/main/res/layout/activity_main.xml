@@ -17,7 +17,8 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg1" />
+            android:scaleType="fitXY"
+            android:src="@drawable/bg1" />
 
         <ImageView
             android:id="@+id/imgHome"
@@ -61,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
 
@@ -79,7 +80,7 @@
             android:weightSum="4">
 
             <ImageView
-                android:id="@+id/imgSave1"
+                android:id="@+id/imgCrop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -87,7 +88,7 @@
                 android:src="@drawable/img_crop" />
 
             <ImageView
-                android:id="@+id/imgSave2"
+                android:id="@+id/imgMagicWard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -97,7 +98,7 @@
                 />
 
             <ImageView
-                android:id="@+id/imgSave3"
+                android:id="@+id/imgFiltre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -105,7 +106,7 @@
                 android:src="@drawable/img_filter" />
 
             <ImageView
-                android:id="@+id/imgSave4"
+                android:id="@+id/imgSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -117,53 +118,78 @@
             android:id="@+id/seekBar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dimen_4dp"
+            android:layout_marginBottom="@dimen/dimen_2dp"
             android:layout_marginLeft="@dimen/dimen_2dp"
             android:layout_marginRight="@dimen/dimen_2dp"
-            android:layout_marginTop="@dimen/dimen_4dp"
+            android:layout_marginTop="@dimen/dimen_2dp"
             android:progress="30"></SeekBar>
 
 
         <LinearLayout
+            android:id="@+id/layoutmagicward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_4dp"
             android:orientation="horizontal"
             android:weightSum="5">
 
             <ImageView
-                android:layout_width="@dimen/dimen_56dp"
-                android:layout_height="@dimen/dimen_56dp"
+                android:id="@+id/imgBrightness"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_8dp"
                 android:src="@drawable/brightness" />
 
             <ImageView
-                android:layout_width="@dimen/dimen_56dp"
-                android:layout_height="@dimen/dimen_56dp"
+                android:id="@+id/imgContrast"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_8dp"
-                android:src="@drawable/brightness" />
+                android:src="@drawable/contrast_button" />
 
             <ImageView
-                android:layout_width="@dimen/dimen_56dp"
-                android:layout_height="@dimen/dimen_56dp"
+                android:id="@+id/imgSaturation"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_8dp"
-                android:src="@drawable/brightness" />
+                android:src="@drawable/compass" />
 
             <ImageView
-                android:layout_width="@dimen/dimen_56dp"
-                android:layout_height="@dimen/dimen_56dp"
+                android:id="@+id/imgHue"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_8dp"
-                android:src="@drawable/brightness" />
+                android:src="@drawable/last_quarter" />
 
             <ImageView
-                android:layout_width="@dimen/dimen_56dp"
-                android:layout_height="@dimen/dimen_56dp"
+                android:id="@+id/imgSharpness"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_8dp"
-                android:src="@drawable/brightness" />
+                android:src="@drawable/sharpness" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutfilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_4dp"
+            android:orientation="horizontal"
+            >
+
+            <Gallery
+                android:id="@+id/gallery"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:layout_marginBottom="@dimen/dimen_8dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -171,14 +197,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_2dp"
             android:background="@color/colorAccent"></View>
-        <!--  <Gallery
-              android:id="@+id/gallery"
-              android:layout_marginTop="@dimen/dimen_8dp"
-              android:layout_marginBottom="@dimen/dimen_8dp"
-              android:layout_width="match_parent"
-              android:layout_height="75dp"
-              android:visibility="visible" />-->
-
 
     </LinearLayout>
 

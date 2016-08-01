@@ -7,7 +7,14 @@
 -->
     <item android:state_pressed="true"
         android:drawable="@drawable/ic_action_save_selected"/> <!-- pressed state -->
-    <item android:state_focused="true"
+    <item android:state_hovered="true"
         android:drawable="@drawable/ic_action_save_selected"/> <!-- focused state -->
     <item android:drawable="@drawable/ic_action_save"/> <!-- default state -->
+
+ <!-- <item android:drawable="@drawable/numpad_button_bg_selected"
+      android:state_selected="true"></item>
+  <item android:drawable="@drawable/numpad_button_bg_pressed"
+      android:state_pressed="true"></item>
+  <item android:drawable="@drawable/numpad_button_bg_normal"></item>-->
+
 </selector>

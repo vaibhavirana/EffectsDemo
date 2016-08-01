@@ -1,18 +1,26 @@
 package com.webmyne.effects.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
@@ -20,12 +28,15 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.webmyne.effects.R;
 import com.webmyne.effects.adpater.ImageAdapter;
-import com.webmyne.effects.image_processing.ImageProcessingConstants;
+import com.webmyne.effects.helper.Functions;
 import com.webmyne.effects.image_processing.ImageProcessor;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,21 +45,29 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+
 
     private String file;
-    private ImageView mOriginalImageView, imgHome, imgPic, imgSave;
+    private ImageView mOriginalImageView, imgHome, imgPic, imgSave, imgCrop, imgMagicWard, imgFiltre;
+    private ImageView imgBrightness,imgContrast,imgSaturation,imgHue,imgSharpness;
     private Gallery mGallery;
     private Bitmap[] mBitmapArray;
     private ImageProcessor mImageProcessor;
     private Bitmap bitmap;
     private LinearLayout bottom_sheet;
     private SeekBar seekBar1;
+    private Uri mCropImageUri;
+    LinearLayout layoutfilter, layoutmagicward;
+    Animation slideUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Functions.setActivityToFullScreen(this);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().hide();
         file = getIntent().getStringExtra("file");
         initialize();
         // loadBitmaps();
@@ -57,25 +76,88 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     private void initialize() {
         bottom_sheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+        imgHome = (ImageView) findViewById(R.id.imgHome);
         imgPic = (ImageView) findViewById(R.id.imgPic);
+        imgSave = (ImageView) findViewById(R.id.imgSave);
+        imgCrop = (ImageView) findViewById(R.id.imgCrop);
+        imgMagicWard = (ImageView) findViewById(R.id.imgMagicWard);
+        imgFiltre = (ImageView) findViewById(R.id.imgFiltre);
 
-        seekBar1=(SeekBar)findViewById(R.id.seekBar1);
+        imgBrightness = (ImageView) findViewById(R.id.imgBrightness);
+        imgContrast = (ImageView) findViewById(R.id.imgContrast);
+        imgSaturation = (ImageView) findViewById(R.id.imgSaturation);
+        imgHue = (ImageView) findViewById(R.id.imgHue);
+        imgSharpness = (ImageView) findViewById(R.id.imgSharpness);
+
+        layoutfilter = (LinearLayout) findViewById(R.id.layoutfilter);
+        layoutmagicward = (LinearLayout) findViewById(R.id.layoutmagicward);
+        seekBar1 = (SeekBar) findViewById(R.id.seekBar1);
         seekBar1.setOnSeekBarChangeListener(this);
 
-       /* imgSave = (ImageView) findViewById(R.id.imgSave);
-        imgSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveImage();
-            }
-        });*/
+        imgHome.setOnClickListener(this);
+        imgPic.setOnClickListener(this);
+        imgSave.setOnClickListener(this);
+        imgCrop.setOnClickListener(this);
+        imgMagicWard.setOnClickListener(this);
+        imgFiltre.setOnClickListener(this);
 
-        imgPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (bottom_sheet.isShown()) {
+        imgBrightness.setOnClickListener(this);
+        imgContrast.setOnClickListener(this);
+        imgSaturation.setOnClickListener(this);
+        imgHue.setOnClickListener(this);
+        imgSharpness.setOnClickListener(this);
+        //imgHome.setOnClickListener(this);
+
+        mOriginalImageView = (ImageView) findViewById(R.id.imageView);
+        if (!TextUtils.isEmpty(file)) {
+            bitmap = BitmapFactory.decodeFile(file);
+            mOriginalImageView.setImageBitmap(bitmap);
+        }
+
+        mGallery = (Gallery) findViewById(R.id.gallery);
+        //bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg1);
+        mImageProcessor = new ImageProcessor();
+
+        changeUi(2);
+        //imgMagicWard.setImageResource(R.drawable.ic_magic_wand_selected);
+        layoutmagicward.setVisibility(View.VISIBLE);
+        layoutfilter.setVisibility(View.GONE);
+        seekBar1.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.imgHome:
+                finish();
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_down_out);
+                break;
+            case R.id.imgPic:
+
+                slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+                imgPic.startAnimation(slideUp);
+               /* slideUp.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        bottom_sheet.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });*/
+                bottom_sheet.startAnimation(slideUp);
+                bottom_sheet.setVisibility(View.VISIBLE);
+                /*if (bottom_sheet.isShown()) {
                     bottom_sheet.setVisibility(View.GONE);
-                    /*bottom_sheet.setAlpha(1.0f);
+                    *//*bottom_sheet.setAlpha(1.0f);
                     bottom_sheet.animate()
                             .translationY(0)
                             .alpha(0.0f)
@@ -86,12 +168,12 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                             super.onAnimationEnd(animation);
                             bottom_sheet.setVisibility(View.GONE);
                         }
-                    });*/
-                   // bottom_sheet.animate().translationY(0);
+                    });*//*
+                    // bottom_sheet.animate().translationY(0);
                 } else {
                     bottom_sheet.setVisibility(View.VISIBLE);
-                   // bottom_sheet.animate().translationY(bottom_sheet.getHeight()).setDuration(1500);
-/*
+                    // bottom_sheet.animate().translationY(bottom_sheet.getHeight()).setDuration(1500);
+*//*
                     bottom_sheet.setAlpha(0.0f);
 
                 // Start the animation
@@ -105,29 +187,98 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                             super.onAnimationEnd(animation);
                             bottom_sheet.setVisibility(View.VISIBLE);
                         }
-                    });*/
+                    });*//*
+                }*/
+                break;
+            case R.id.imgSave:
+                changeUi(4);
+                layoutmagicward.setVisibility(View.GONE);
+                layoutfilter.setVisibility(View.GONE);
+                seekBar1.setVisibility(View.GONE);
+                saveImage();
+                break;
+            case R.id.imgCrop:
+                changeUi(1);
+                layoutmagicward.setVisibility(View.GONE);
+                layoutfilter.setVisibility(View.GONE);
+                seekBar1.setVisibility(View.GONE);
+                startCropImageActivity(ResourceToUri(MainActivity.this, R.drawable.bg1));
+                //startCropImageActivity(getImageUri(MainActivity.this, bitmap));
+                break;
+            case R.id.imgMagicWard:
+                changeUi(2);
+                //imgMagicWard.setImageResource(R.drawable.ic_magic_wand_selected);
+                layoutmagicward.setVisibility(View.VISIBLE);
+                layoutfilter.setVisibility(View.GONE);
+                seekBar1.setVisibility(View.VISIBLE);
 
-                }
-            }
-        });
+                break;
+            case R.id.imgFiltre:
+                changeUi(3);
+                layoutmagicward.setVisibility(View.GONE);
+                layoutfilter.setVisibility(View.VISIBLE);
+                seekBar1.setVisibility(View.GONE);
+                loadBitmaps();
+                setAdapterAndListener();
+                break;
 
-        mOriginalImageView = (ImageView) findViewById(R.id.imageView);
-        if (!TextUtils.isEmpty(file)) {
-            bitmap = BitmapFactory.decodeFile(file);
-            mOriginalImageView.setImageBitmap(bitmap);
+            case R.id.imgBrightness:
+                imgBrightness.setBackgroundColor(getResources().getColor(R.color.apps_list_free_memory));
+                mImageProcessor.doBrightness(bitmap, 0);
+                break;
+
+            case R.id.imgContrast:
+
+
+                break;
+
+            case R.id.imgSaturation:
+
+
+                break;
+
+            case R.id.imgHue:
+
+
+                break;
+
+            case R.id.imgSharpness:
+
+
+                break;
         }
+    }
 
-        imgHome = (ImageView) findViewById(R.id.imgHome);
-        imgHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.push_up_in, R.anim.push_down_out);
-            }
-        });
+    private void changeUi(int pos) {
+        switch (pos) {
+            case 1:
+                imgCrop.setImageResource(R.drawable.ic_crop_selected);
+                imgMagicWard.setImageResource(R.drawable.ic_magic_wand);
+                imgFiltre.setImageResource(R.drawable.ic_filters);
+                imgSave.setImageResource(R.drawable.ic_action_save);
+                break;
 
-      //  mGallery = (Gallery) findViewById(R.id.gallery);
-        mImageProcessor = new ImageProcessor();
+            case 2:
+                imgCrop.setImageResource(R.drawable.ic_crop);
+                imgMagicWard.setImageResource(R.drawable.ic_magic_wand_selected);
+                imgFiltre.setImageResource(R.drawable.ic_filters);
+                imgSave.setImageResource(R.drawable.ic_action_save);
+                break;
+
+            case 3:
+                imgCrop.setImageResource(R.drawable.ic_crop);
+                imgMagicWard.setImageResource(R.drawable.ic_magic_wand);
+                imgFiltre.setImageResource(R.drawable.ic_filters_selected);
+                imgSave.setImageResource(R.drawable.ic_action_save);
+                break;
+
+            case 4:
+                imgCrop.setImageResource(R.drawable.ic_crop);
+                imgMagicWard.setImageResource(R.drawable.ic_magic_wand);
+                imgFiltre.setImageResource(R.drawable.ic_filters);
+                imgSave.setImageResource(R.drawable.ic_action_save_selected);
+                break;
+        }
     }
 
     private void saveImage() {
@@ -174,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     private void loadBitmaps() {
         // Bitmap skullBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.skull);
-        //  Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg1);
+
         mBitmapArray = new Bitmap[]{
                 /*skullBitmap,
                 mImageProcessor.doHighlightImage(skullBitmap, 15, Color.RED),
@@ -223,12 +374,16 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 // mImageProcessor.doInvert(bitmap), mImageProcessor.doGreyScale(bitmap),
                 mImageProcessor.doGamma(bitmap, 0.6, 0.6, 0.6),
                 mImageProcessor.doGamma(bitmap, 1.8, 1.8, 1.8),
-                mImageProcessor.doColorFilter(bitmap, 1, 0, 0),
+                mImageProcessor.doBrightness(bitmap, 0),
+                mImageProcessor.doBrightness(bitmap, 30),
+                mImageProcessor.doBrightness(bitmap, 50),
+                mImageProcessor.doBrightness(bitmap, 80),
+               /* mImageProcessor.doColorFilter(bitmap, 1, 0, 0),
                 mImageProcessor.doColorFilter(bitmap, 0, 1, 0),
                 mImageProcessor.doColorFilter(bitmap, 0, 0, 1),
                 mImageProcessor.doColorFilter(bitmap, 0.5, 0.5, 0.5),
-                mImageProcessor.doColorFilter(bitmap, 1.5, 1.5, 1.5),
-                mImageProcessor.createSepiaToningEffect(bitmap, 150, 0.7, 0.3, 0.12),
+                mImageProcessor.doColorFilter(bitmap, 1.5, 1.5, 1.5),*/
+               /* mImageProcessor.createSepiaToningEffect(bitmap, 150, 0.7, 0.3, 0.12),
                 mImageProcessor.createSepiaToningEffect(bitmap, 150, 0.8, 0.2, 0),
                 mImageProcessor.createSepiaToningEffect(bitmap, 150, 0.12, 0.7, 0.3),
                 mImageProcessor.createSepiaToningEffect(bitmap, 150, 0.12, 0.3, 0.7),
@@ -256,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 mImageProcessor.applyShadingFilter(bitmap, Color.BLUE),
                 mImageProcessor.applySaturationFilter(bitmap, 1),
                 mImageProcessor.applySaturationFilter(bitmap, 5),
-                mImageProcessor.applyHueFilter(bitmap, 1), mImageProcessor.applyHueFilter(bitmap, 5),
+                mImageProcessor.applyHueFilter(bitmap, 1), mImageProcessor.applyHueFilter(bitmap, 5),*/
                 //mImageProcessor.applyReflection(bitmap)
         };
         //   writeToDisk();
@@ -272,17 +427,84 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     }
 
     @Override
+    @SuppressLint("NewApi")
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // handle result of pick image chooser
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+            // For API >= 23 we need to check specifically that we have permissions to read external storage.
+            boolean requirePermissions = false;
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+                // request permissions and handle the result in onRequestPermissionsResult()
+                requirePermissions = true;
+                mCropImageUri = imageUri;
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            } else {
+                // no permissions required or already grunted, can start crop image activity
+                startCropImageActivity(imageUri);
+            }
+        }
+
+        // handle result of CropImageActivity
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                mOriginalImageView.setImageURI(result.getUri());
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // required permissions granted, start crop image activity
+            startCropImageActivity(mCropImageUri);
+        } else {
+            Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Start crop image activity for the given image.
+     */
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this);
+    }
+
+    public static Uri ResourceToUri(Context context, int resID) {
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                context.getResources().getResourcePackageName(resID) + '/' +
+                context.getResources().getResourceTypeName(resID) + '/' +
+                context.getResources().getResourceEntryName(resID));
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        Toast.makeText(getApplicationContext(),"seekbar progress: "+progress, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "seekbar progress: " + progress, Toast.LENGTH_SHORT).show();
+        mImageProcessor.doBrightness(bitmap, progress);
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        Toast.makeText(getApplicationContext(),"seekbar touch started!", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplicationContext(), "seekbar touch started!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        Toast.makeText(getApplicationContext(),"seekbar touch stopped!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "seekbar touch stopped!", Toast.LENGTH_SHORT).show();
     }
+
 }

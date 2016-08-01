@@ -4,6 +4,7 @@ package com.webmyne.effects.helper;
  * @author jatin
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +14,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -94,4 +97,12 @@ public class Functions {
         bm.recycle();
         return resizedBitmap;
     }
+
+    public static void setActivityToFullScreen(Activity splashScreenActivity) {
+        splashScreenActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        splashScreenActivity.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+
 }
