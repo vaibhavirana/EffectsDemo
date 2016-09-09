@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.webmyne.effects.ui.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+       <!-- <ImageView
+            android:id="@+id/source_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:onClick="toggleToolbox"
+            android:clickable="true"
+            android:contentDescription="@string/img_desc"
+            android:scaleType="centerInside" />-->
+
+        <ImageView
+            android:id="@+id/source_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:contentDescription="@string/img_desc"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg1" />
+
+        <ImageView
+            android:id="@+id/imgHome"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dimen_8dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:background="@drawable/bgicon"
+            android:padding="@dimen/dimen_16dp"
+            android:src="@drawable/ic_home"
+            android:tint="#FFF" />
+
+        <!--  <ImageView
+              android:id="@+id/imgSave"
+              android:layout_width="64dp"
+              android:layout_height="64dp"
+              android:background="@drawable/bgicon"
+              android:padding="@dimen/dimen_8dp"
+              android:src="@drawable/ic_action_save"
+              android:tint="#FFF"
+              android:layout_alignTop="@+id/imgHome"
+              android:layout_toLeftOf="@+id/imgHome"
+              android:layout_toStartOf="@+id/imgHome" />-->
+
+        <ImageView
+            android:id="@+id/imgPic"
+            android:layout_width="120dp"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/roundbg"
+            android:padding="@dimen/dimen_4dp"
+            android:src="@drawable/ic_action_up"
+            android:tint="#FFFF" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/toolbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <include layout="@layout/holder_save" />
+
+        <include layout="@layout/holder_apply_filter" />
+
+        <include layout="@layout/holder_hue" />
+
+        <include layout="@layout/holder_saturation" />
+
+        <include layout="@layout/holder_flip" />
+
+        <include layout="@layout/holder_boost" />
+
+        <include layout="@layout/holder_brightness" />
+
+        <include layout="@layout/holder_contrast" />
+
+        <include layout="@layout/holder_gamma" />
+
+        <include layout="@layout/holder_cbalance" />
+
+        <include layout="@layout/holder_cdepth" />
+
+        <include layout="@layout/holder_tint" />
+
+        <include layout="@layout/holder_filters" />
+    </RelativeLayout>
+
+</LinearLayout>

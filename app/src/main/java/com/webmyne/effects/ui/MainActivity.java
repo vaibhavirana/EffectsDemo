@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
 
     private String file;
-    private ImageView mOriginalImageView, imgHome, imgPic, imgSave, imgCrop, imgMagicWard, imgFiltre;
+    private ImageView mOriginalImageView, imgPic,imgSave,  imgCrop, imgMagicWard, imgFiltre;
     private ImageView imgBrightness,imgContrast,imgSaturation,imgHue,imgSharpness;
     private Gallery mGallery;
     private Bitmap[] mBitmapArray;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private LinearLayout bottom_sheet;
     private SeekBar seekBar1;
     private Uri mCropImageUri;
-    LinearLayout layoutfilter, layoutmagicward;
+    LinearLayout layoutfilter, layoutmagicward,layoutBottom;
     Animation slideUp;
 
     @Override
@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     private void initialize() {
         bottom_sheet = (LinearLayout) findViewById(R.id.bottom_sheet);
-        imgHome = (ImageView) findViewById(R.id.imgHome);
+        layoutBottom = (LinearLayout) findViewById(R.id.layoutBottom);
+        //imgHome = (ImageView) findViewById(R.id.imgHome);
         imgPic = (ImageView) findViewById(R.id.imgPic);
         imgSave = (ImageView) findViewById(R.id.imgSave);
         imgCrop = (ImageView) findViewById(R.id.imgCrop);
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         seekBar1 = (SeekBar) findViewById(R.id.seekBar1);
         seekBar1.setOnSeekBarChangeListener(this);
 
-        imgHome.setOnClickListener(this);
+        //imgHome.setOnClickListener(this);
         imgPic.setOnClickListener(this);
         imgSave.setOnClickListener(this);
         imgCrop.setOnClickListener(this);
@@ -129,73 +130,44 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.imgHome:
-                finish();
-                overridePendingTransition(R.anim.push_up_in, R.anim.push_down_out);
-                break;
+
             case R.id.imgPic:
 
-                slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
-                imgPic.startAnimation(slideUp);
-               /* slideUp.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        bottom_sheet.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });*/
-                bottom_sheet.startAnimation(slideUp);
-                bottom_sheet.setVisibility(View.VISIBLE);
-                /*if (bottom_sheet.isShown()) {
-                    bottom_sheet.setVisibility(View.GONE);
-                    *//*bottom_sheet.setAlpha(1.0f);
-                    bottom_sheet.animate()
-                            .translationY(0)
-                            .alpha(0.0f)
-                            .setDuration(2000)
-                            .setListener(new AnimatorListenerAdapter() {
+                if(bottom_sheet.isShown())
+                {
+                    slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+                    layoutBottom.startAnimation(slideUp);
+                    slideUp.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
                             bottom_sheet.setVisibility(View.GONE);
                         }
-                    });*//*
-                    // bottom_sheet.animate().translationY(0);
-                } else {
-                    bottom_sheet.setVisibility(View.VISIBLE);
-                    // bottom_sheet.animate().translationY(bottom_sheet.getHeight()).setDuration(1500);
-*//*
-                    bottom_sheet.setAlpha(0.0f);
 
-                // Start the animation
-                    bottom_sheet.animate()
-                            .translationY(bottom_sheet.getHeight())
-                            .alpha(1.0f)
-                            .setDuration(2000)
-                            .setListener(new AnimatorListenerAdapter() {
                         @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            bottom_sheet.setVisibility(View.VISIBLE);
+                        public void onAnimationRepeat(Animation animation) {
+
                         }
-                    });*//*
-                }*/
+                    });
+
+                }else {
+                    slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+                    layoutBottom.startAnimation(slideUp);
+                    bottom_sheet.setVisibility(View.VISIBLE);
+                }
+
+
                 break;
             case R.id.imgSave:
                 changeUi(4);
                 layoutmagicward.setVisibility(View.GONE);
                 layoutfilter.setVisibility(View.GONE);
                 seekBar1.setVisibility(View.GONE);
-                saveImage();
+               // saveImage();
                 break;
             case R.id.imgCrop:
                 changeUi(1);
@@ -218,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 layoutmagicward.setVisibility(View.GONE);
                 layoutfilter.setVisibility(View.VISIBLE);
                 seekBar1.setVisibility(View.GONE);
-                loadBitmaps();
-                setAdapterAndListener();
+              //  loadBitmaps();
+               // setAdapterAndListener();
                 break;
 
             case R.id.imgBrightness:
