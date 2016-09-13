@@ -144,7 +144,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Brightness"
+                            android:text="@string/brightness1"
                             android:textSize="@dimen/VS_TEXT" />
 
                         <ImageView
@@ -168,7 +168,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Contrast"
+                            android:text="@string/contrast1"
                             android:textSize="@dimen/VS_TEXT" />
 
                         <ImageView
@@ -192,7 +192,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Saturation"
+                            android:text="@string/saturation"
                             android:textSize="@dimen/VS_TEXT" />
 
                         <ImageView
@@ -216,7 +216,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Hue"
+                            android:text="@string/hue1"
                             android:textSize="@dimen/VS_TEXT" />
 
                         <ImageView
@@ -240,7 +240,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Sharpness"
+                            android:text="@string/sharpness"
                             android:textSize="@dimen/VS_TEXT" />
 
                         <ImageView
@@ -266,13 +266,21 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <Gallery
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvFilter"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+               <!-- <Gallery
                     android:id="@+id/gallery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dimen_8dp"
                     android:layout_marginTop="@dimen/dimen_8dp"
-                    android:visibility="visible" />
+                    android:visibility="visible" />-->
 
             </LinearLayout>
 

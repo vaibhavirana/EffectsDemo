@@ -60,4 +60,26 @@
     <string name="effect18">Saturation</string>
     <string name="effect19">Contrast</string>
 
+    <string name="brightness1">Brightness</string>
+    <string name="contrast1">Contrast</string>
+    <string name="saturation">Saturation</string>
+    <string name="hue1">Hue</string>
+    <string name="sharpness">Sharpness</string>
+
+    <string name="original">Original</string>
+    <string name="minimal">Minimal</string>
+    <string name="false1">False</string>
+    <string name="monochrome">Monochrome</string>
+    <string name="instant">Instant</string>
+    <string name="tone_curve">Tone Curve</string>
+    <string name="chrome">Chrome</string>
+    <string name="fade">Fade</string>
+    <string name="mono">Mono</string>
+    <string name="noir">Noir</string>
+    <string name="process">Process</string>
+    <string name="tonal">Tonal</string>
+    <string name="transfer">Transfer</string>
+    <string name="lienar_curve">Lienar Curve</string>
+    <string name="hatched">Hatched</string>
+    <string name="half_tone">Half Tone</string>
 </resources>

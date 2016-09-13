@@ -16,14 +16,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -33,7 +33,6 @@ import android.widget.Toast;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.webmyne.effects.R;
-import com.webmyne.effects.adpater.ImageAdapter;
 import com.webmyne.effects.effects.Styler;
 import com.webmyne.effects.helper.Constants;
 import com.webmyne.effects.helper.Functions;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private String file;
     private ImageView mOriginalImageView, imgHome, imgPic, imgSave, imgCrop, imgMagicWard, imgFiltre;
     private ImageView imgBrightness, imgContrast, imgSaturation, imgHue, imgSharpness;
-    private Gallery mGallery;
+   // private Gallery mGallery;
     // private Bitmap[] mBitmapArray;
     private ArrayList<Integer> mBitmapArray;
     private ImageProcessor mImageProcessor;
@@ -71,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private Styler styler;
     private int selected_effect;
     private int brightnessValue, saturationValue, contrasValue, sharpnessValue, hueValue;
-    private RelativeLayout.LayoutParams params;
     private int height;
+    private RecyclerView rvFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,10 +142,11 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             bitmap = BitmapFactory.decodeFile(file);
             mOriginalImageView.setImageBitmap(bitmap);
         }
-
-        mGallery = (Gallery) findViewById(R.id.gallery);
-        loadBitmaps();
-        setAdapterAndListener();
+        rvFilter=(RecyclerView)findViewById(R.id.rvFilter);
+        rvFilter.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+       // mGallery = (Gallery) findViewById(R.id.gallery);
+       // loadBitmaps();
+       // setAdapterAndListener();
 
         mImageProcessor = new ImageProcessor();
 
@@ -175,15 +175,17 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 break;
             case R.id.imgCrop:
                 changeUi(1);
-                startCropImageActivity(ResourceToUri(MainActivity.this, R.drawable.bg1));
-                //startCropImageActivity(getImageUri(MainActivity.this, bitmap));
+                //startCropImageActivity(ResourceToUri(MainActivity.this, R.drawable.bg1));
+                startCropImageActivity(getImageUri(MainActivity.this, bitmap));
                 break;
             case R.id.imgMagicWard:
                 changeUi(2);
+                break;
 
+            case R.id.imgHome:
+                finish();
                 break;
             case R.id.imgFiltre:
-
                 changeUi(3);
                 break;
 
@@ -214,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 break;
 
             case R.id.imgHue:
-
                 if (hueValue == Constants.HUE_PROGRESS)
                     changeSeekBarSetting(Constants.HUE_MAX, Constants.HUE_PROGRESS);
                 else
@@ -508,12 +509,12 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     }
 
     private void setAdapterAndListener() {
-        mGallery.setAdapter(new ImageAdapter(this, mBitmapArray));
+       /* mGallery.setAdapter(new ImageAdapter(this, mBitmapArray));
         mGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // mOriginalImageView.setImageBitmap(mBitmapArray[position]);
             }
-        });
+        });*/
     }
 
     @Override
@@ -541,7 +542,15 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                mOriginalImageView.setImageURI(result.getUri());
+               // bitmap=result.getUri()
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
+                   // mOriginalImageView.setImageURI(result.getUri());
+                    mOriginalImageView.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 changeUi(2);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
@@ -559,9 +568,6 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         }
     }
 
-    /**
-     * Start crop image activity for the given image.
-     */
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
