@@ -136,6 +136,7 @@ public class SplashActivityRevised extends AppCompatActivity implements View.OnC
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra(Constants.EXTRA_KEY_IMAGE_SOURCE, source_id);
         intent.setData(imageUri);
+        intent.putExtra("file",imageUri);
         startActivity(intent);
         overridePendingTransition(0, 0);
         finish();
