@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.webmyne.effects.R;
+import com.webmyne.effects.adpater.FilterAdapter;
 import com.webmyne.effects.effects.Styler;
 import com.webmyne.effects.helper.Constants;
 import com.webmyne.effects.helper.Functions;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
    // private Gallery mGallery;
     // private Bitmap[] mBitmapArray;
     private ArrayList<Integer> mBitmapArray;
+    private ArrayList<String> mBitmapStringArray;
     private ImageProcessor mImageProcessor;
     private Bitmap bitmap;
     private LinearLayout bottom_sheet;
@@ -144,6 +146,44 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         }
         rvFilter=(RecyclerView)findViewById(R.id.rvFilter);
         rvFilter.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        mBitmapArray = new ArrayList<>();
+        mBitmapArray.add(R.drawable.dummy_girl);
+        mBitmapArray.add(R.drawable.minimal);
+        mBitmapArray.add(R.drawable.false1);
+        mBitmapArray.add(R.drawable.monochrome);
+        mBitmapArray.add(R.drawable.instant);
+        mBitmapArray.add(R.drawable.tone_curve);
+        mBitmapArray.add(R.drawable.chrome);
+        mBitmapArray.add(R.drawable.fade);
+        mBitmapArray.add(R.drawable.mono);
+        mBitmapArray.add(R.drawable.noir);
+        mBitmapArray.add(R.drawable.process);
+        mBitmapArray.add(R.drawable.tonal);
+        mBitmapArray.add(R.drawable.transfer);
+        mBitmapArray.add(R.drawable.linear_curve);
+        mBitmapArray.add(R.drawable.hatched);
+        mBitmapArray.add(R.drawable.half_tone);
+
+        mBitmapStringArray = new ArrayList<>();
+        mBitmapStringArray.add(getResources().getString(R.string.original));
+        mBitmapStringArray.add(getResources().getString(R.string.minimal));
+        mBitmapStringArray.add(getResources().getString(R.string.false1));
+        mBitmapStringArray.add(getResources().getString(R.string.monochrome));
+        mBitmapStringArray.add(getResources().getString(R.string.instant));
+        mBitmapStringArray.add(getResources().getString(R.string.tone_curve));
+        mBitmapStringArray.add(getResources().getString(R.string.chrome));
+        mBitmapStringArray.add(getResources().getString(R.string.fade));
+        mBitmapStringArray.add(getResources().getString(R.string.mono));
+        mBitmapStringArray.add(getResources().getString(R.string.noir));
+        mBitmapStringArray.add(getResources().getString(R.string.process));
+        mBitmapStringArray.add(getResources().getString(R.string.tonal));
+        mBitmapStringArray.add(getResources().getString(R.string.transfer));
+        mBitmapStringArray.add(getResources().getString(R.string.lienar_curve));
+        mBitmapStringArray.add(getResources().getString(R.string.hatched));
+        mBitmapStringArray.add(getResources().getString(R.string.half_tone));
+
+        rvFilter.setAdapter(new FilterAdapter(this,mBitmapStringArray,mBitmapArray));
        // mGallery = (Gallery) findViewById(R.id.gallery);
        // loadBitmaps();
        // setAdapterAndListener();
@@ -153,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         changeUi(2);
 
     }
+
 
     private void changeSeekBarSetting(int max, int value) {
         seekBar1.setMax(max);

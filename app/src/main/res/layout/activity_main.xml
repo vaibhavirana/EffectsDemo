@@ -121,14 +121,12 @@
                     android:layout_marginBottom="@dimen/dimen_2dp"
                     android:layout_marginLeft="@dimen/dimen_2dp"
                     android:layout_marginRight="@dimen/dimen_2dp"
-                    android:layout_marginTop="@dimen/dimen_2dp"
                     android:progress="30"></SeekBar>
 
                 <LinearLayout
                     android:id="@+id/layoutmagicward1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimen_4dp"
                     android:orientation="horizontal"
                     android:padding="@dimen/dimen_4dp"
                     android:weightSum="5">
@@ -262,26 +260,15 @@
                 android:id="@+id/layoutfilter"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/dimen_4dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvFilter"
-                    android:layout_marginBottom="@dimen/dimen_8dp"
-                    android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                 </android.support.v7.widget.RecyclerView>
-               <!-- <Gallery
-                    android:id="@+id/gallery"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimen_8dp"
-                    android:layout_marginTop="@dimen/dimen_8dp"
-                    android:visibility="visible" />-->
-
             </LinearLayout>
 
         </LinearLayout>
